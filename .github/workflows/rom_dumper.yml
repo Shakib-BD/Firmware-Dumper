@@ -80,6 +80,7 @@ jobs:
 
     - name: Creating Dump
       run: |
+        cd $cur_dir/DumprX
         ./dumper.sh ${{ env.FUR }}
         sudo chmod -R 777 out
 
@@ -90,7 +91,7 @@ jobs:
 
     - name: Upload ROM Dump
       run: |
-        cd out
+        cd $cur_dir/DumprX/out
         sudo chmod -R 777 *
         cp lineage-device-tree $cur_dir
         cp twrp-device-tree $cur_dir
