@@ -87,7 +87,8 @@ jobs:
     - name: İnstalling DumprX
       run: |
         cd /home
-        mkdir Auto-Dumper
+        sudo mkdir Auto-Dumper
+        sudo chmod 777 Auto-Dumper
         cd Auto-Dumper
         git clone https://github.com/DumprX/DumprX
         cur_dir=$(pwd)
