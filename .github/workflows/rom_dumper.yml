@@ -108,14 +108,16 @@ jobs:
       if: |
         ${{env.LOT}} != null
       run: |
-        cd $cur_dir/lineage-device-tree
-        wget <file>
+        cd $cur_dir
+        wget https://raw.githubusercontent.com/YZBruh/Auto-Firmware-Dumper/master/scripts/control_lineage_dt.sh
+        sudo chmod 777 control_lineage_dt.sh
         ./control_lineage_dt.sh
 
     - name: Uploading TWRP Device Tree
       if: |
         ${{env.TWT}} != null
       run: |
-        cd $cur_dir/twrp-device-tree
-        wget <file>
+        cd $cur_dir
+        wget https://raw.githubusercontent.com/YZBruh/Auto-Firmware-Dumper/master/scripts/control_twrp_dt.sh
+        sudo chmod 777 control_twrp_dt.sh
         ./control_twrp_dt.sh
