@@ -67,7 +67,7 @@ jobs:
       run: |
         sudo apt update
         sudo apt -y upgrade
-        sudo apt -y install cpio aria2 git python3
+        sudo apt -y install cpio aria2 git python3 python-pip
 
     - name: İnstalling DumprX
       run: |
