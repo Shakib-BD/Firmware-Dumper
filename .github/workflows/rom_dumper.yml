@@ -108,15 +108,14 @@ jobs:
 
     - name: Setting up git
       run: |
-        git config --global user.name "${{ env.UN }}"
-        git config --global user.email "${{ env.UEM }}"
+        git config --global user.name "${{ env.UN }}" && git config --global user.email "${{ env.UEM }}"
 
     - name: Upload ROM Dump
       run: |
         cd /home/Auto-Dumper/DumprX/out
         sudo chmod -R 777 *
-        cp lineage-device-tree /home/Auto-Dumper
-        cp twrp-device-tree /home/Auto-Dumper
+        cp -r lineage-device-tree /home/Auto-Dumper
+        cp -r twrp-device-tree /home/Auto-Dumper
         git init
         git branch -M android-${{ env.AV }}
         git add .
