@@ -20,7 +20,7 @@ on:
         required: true
         default: ''
       UPLOAD_LINEAGE_DT:
-        description: 'Create LineageOS DT Repo (For approval)'
+        description: 'Create LineageOS DT Repo (For approval= true)'
         required: false
         default: ''
       UPLOAD_TWRP_DT:
