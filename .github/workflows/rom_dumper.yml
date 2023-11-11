@@ -86,6 +86,9 @@ jobs:
         
     - name: İnstalling DumprX
       run: |
+        cd /home
+        mkdir Auto-Dumper
+        cd Auto-Dumper
         git clone https://github.com/DumprX/DumprX
         cur_dir=$(pwd)
         cd DumprX
@@ -96,6 +99,7 @@ jobs:
 
     - name: Creating Dump
       run: |
+        cd $cur_dir/DumprX
         ./dumper.sh ${{ env.FUR }}
         sudo chmod -R 777 out
 
