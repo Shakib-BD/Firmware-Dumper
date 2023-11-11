@@ -58,9 +58,6 @@ jobs:
     - name: Check Out
       uses: actions/checkout@v3
       
-    - name: Cleanup
-      uses: rokibhasansagar/slimhub_actions@main
-      
     - name: Set Swap Space
       uses: pierotofy/set-swap-space@master
       with:
@@ -86,12 +83,14 @@ jobs:
         sudo chmod 777 setup.sh
         sudo chmod 777 dumper.sh
         ./setup.sh
+      working-directory: ${{ steps.pwd.outputs.workspace-folder }}
 
     - name: Creating Dump
       run: |
         cd $cur_dir/DumprX
         ./dumper.sh ${{ env.FUR }}
         sudo chmod -R 777 out
+      working-directory: ${{ steps.pwd.outputs.workspace-folder }}
 
     - name: Setting up git
       run: |
