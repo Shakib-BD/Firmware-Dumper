@@ -116,12 +116,12 @@ jobs:
         sudo chmod -R 777 *
         cp -r lineage-device-tree /home/Auto-Dumper
         cp -r twrp-device-tree /home/Auto-Dumper
-        git config --global init.defaultBranch android-${{ env.AV }}
         git init
         git branch -M android-${{ env.AV }}
         git add .
-        git commit -s -m "${{ env.DCN }}: ROM Dump"
-        gh repo create ${{ env.RN }} --public --description="ROM Dump ${{ env.DCN }}." --source=. --remote=origin --push
+        git commit -m "${{ env.DCN }}: ROM Dump"
+        git remote add origin git@github.com:${{ env.UN }}/${{ env.RN}}.git
+        git push -u origin android-${{ env.AV }}
         cd /home/Auto-Dumper/DumprX
         sudo rm -rf out
 
