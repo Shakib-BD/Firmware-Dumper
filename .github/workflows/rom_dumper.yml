@@ -91,7 +91,6 @@ jobs:
         sudo chmod 777 Auto-Dumper
         cd Auto-Dumper
         git clone https://github.com/DumprX/DumprX
-        cur_dir=$(pwd)
         cd DumprX
         sudo chmod 777 setup.sh
         sudo chmod 777 dumper.sh
@@ -100,7 +99,7 @@ jobs:
 
     - name: Creating Dump
       run: |
-        cd $cur_dir/DumprX
+        cd /home/Auto-Dumper/DumprX
         ./dumper.sh ${{ env.FUR }}
         sudo chmod -R 777 out
 
@@ -111,10 +110,10 @@ jobs:
 
     - name: Upload ROM Dump
       run: |
-        cd $cur_dir/DumprX/out
+        cd /home/Auto-Dumper/DumprX/out
         sudo chmod -R 777 *
-        cp lineage-device-tree $cur_dir
-        cp twrp-device-tree $cur_dir
+        cp lineage-device-tree /home/Auto-Dumper
+        cp twrp-device-tree /home/Auto-Dumper
         git init
         git branch -M android-${{ env.AV }}
         git add .
@@ -125,7 +124,7 @@ jobs:
       if: |
         ${{env.LOT}} != null
       run: |
-        cd $cur_dir
+        cd /home/Auto-Dumper
         wget https://raw.githubusercontent.com/YZBruh/Auto-Firmware-Dumper/master/scripts/control_lineage_dt.sh
         sudo chmod 777 control_lineage_dt.sh
         ./control_lineage_dt.sh
@@ -134,7 +133,7 @@ jobs:
       if: |
         ${{env.TWT}} != null
       run: |
-        cd $cur_dir
+        cd /home/Auto-Dumper
         wget https://raw.githubusercontent.com/YZBruh/Auto-Firmware-Dumper/master/scripts/control_twrp_dt.sh
         sudo chmod 777 control_twrp_dt.sh
         ./control_twrp_dt.sh
