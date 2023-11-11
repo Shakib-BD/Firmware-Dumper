@@ -9,6 +9,7 @@ DumprX: https://github.com/DumprX/DumprX
 
 ## Instruction for use
 - Fork this repository
+- If actions are not enabled, enable them from settings.
 - First, obtain Personal access token. You can get your Personal Access Token in account Settings > Developer settings > Personal access token. Tick ​​all the boxes. Copy the token.
 - Then, go to repository Settings > Secrets and Variables > Action > New repository secret; in name - DUMP and in secret paste your Personal Access Token.
 - Go to: this repository > Actions > All workflows> Auto Firmware Dumper by @YZBruh > Run workflows > Fill in the requested information.
