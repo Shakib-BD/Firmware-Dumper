@@ -40,7 +40,7 @@ jobs:
   build:
     name: Auto Firmware Dumper
     if: github.event.repository.owner.id == github.event.sender.id
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.DUMP }}
       TWT: ${{ github.event.inputs.UPLOAD_TWRP_DT }}
@@ -57,7 +57,10 @@ jobs:
     steps:
     - name: Check Out
       uses: actions/checkout@v3
-
+      
+    - name: Cleanup
+      uses: rokibhasansagar/slimhub_actions@main
+      
     - name: Set Swap Space
       uses: pierotofy/set-swap-space@master
       with:
@@ -67,8 +70,14 @@ jobs:
       run: |
         sudo apt update
         sudo apt -y upgrade
-        sudo apt -y install cpio aria2 git python3 python-pip
-
+        sudo apt -y install cpio aria2 git python3
+        
+    - name: Install OpenJDK
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'zulu'
+        java-version: '8'
+        
     - name: İnstalling DumprX
       run: |
         git clone https://github.com/DumprX/DumprX
