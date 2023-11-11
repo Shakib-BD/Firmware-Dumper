@@ -122,6 +122,8 @@ jobs:
         git add .
         git commit -s -m "${{ env.DCN }}: ROM Dump
         gh repo create ${{ env.RN }} --public --description="ROM Dump ${{ env.DCN }}." --source=. --remote=origin --push
+        cd /home/Auto-Dumper/DumprX
+        sudo rm -rf out
 
     - name: Uploading LineageOS Device Tree
       if: |
