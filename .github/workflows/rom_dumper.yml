@@ -110,7 +110,7 @@ jobs:
       run: |
         git config --global user.name "${{ env.UN }}" && git config --global user.email "${{ env.UEM }}"
 
-    - name: Upload ROM Dump
+    - name: Uploading ROM Dump
       run: |
         cd /home/Auto-Dumper/DumprX/out
         sudo chmod -R 777 *
