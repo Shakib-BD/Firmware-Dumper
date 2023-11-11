@@ -8,6 +8,7 @@ GitHub eylemlerini kullanarak ROM dökümleri oluşturmanıza olanak tanır. Dö
 
 ## Kullanım talimatı
 - Bu depoyu klonlayın
+- Aksiyonlar etkin değilse bunları ayarlardan etkinleştirin.
 - İlk olarak, Kişisel erişim belirteci edinin. Kişisel Erişim Belirtecinizi hesap Ayarları> Geliştirici ayarları> Kişisel erişim belirteci'nden alabilirsiniz. Tüm kutuları işaretleyin. Jetonu kopyalayın.
 - Ardından, depo Ayarları> Sırlar ve Değişkenler> Eylem> Yeni depo sırrı'na gidin; ad dökümünde ve gizli olarak Kişisel Erişim Belirtecinizi yapıştırın.
 - Şuraya gidin: bu depo> Eylemler> Tüm iş akışları> @YZBruh tarafından Otomatik Bellenim Damperi > İş akışlarını çalıştır> İstenen bilgileri doldurun.
