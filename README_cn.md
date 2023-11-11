@@ -6,6 +6,7 @@
 - 耐心
 ## 使用说明
 - Fork此存储库
+- 如果操作未打开，请在设置中激活它。
 - 首先，获取个人访问令牌。 您可以在帐户设置>开发人员设置>个人访问令牌中获取个人访问令牌。 勾选所有的框。 复制令牌。
 - 然后，转到repository Settings>Secrets and Variables>Action>New repository secret;在name-DUMP和in secret粘贴您的个人访问令牌。
 - 转到：此存储库>操作>所有工作流>自动固件转储器@YZBruh>运行工作流>填写请求的信息。
