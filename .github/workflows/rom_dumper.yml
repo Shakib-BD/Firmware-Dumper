@@ -3,12 +3,8 @@ name: Auto Firmware Dumper by @YZBruh
 on:
   workflow_dispatch:
     inputs:
-      FIRMWARE_DUMP_REPO:
-        description: 'Stock ROM URL'
-        required: true
-        default: ''
       FIRMWARE_URL:
-        description: 'Firmware Dump Repository Branch'
+        description: 'Stock ROM Link'
         required: true
         default: ''
       DEVICE_CODENAME:
