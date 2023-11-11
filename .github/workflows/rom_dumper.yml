@@ -1,0 +1,121 @@
+name: Auto Firmware Dumper by @YZBruh
+
+on:
+  workflow_dispatch:
+    inputs:
+      FIRMWARE_DUMP_REPO:
+        description: 'Stock ROM URL'
+        required: true
+        default: ''
+      FIRMWARE_URL:
+        description: 'Firmware Dump Repository Branch'
+        required: true
+        default: ''
+      DEVICE_CODENAME:
+        description: 'Device Codename'
+        required: true
+        default: ''
+      DEVICE_BRAND:
+        description: 'Device Brand'
+        required: true
+        default: ''
+      DEVICE_VERSION:
+        description: 'Android Version'
+        required: true
+        default: ''
+      UPLOAD_LINEAGE_DT:
+        description: 'Create LineageOS DT Repo (For approval)'
+        required: false
+        default: ''
+      UPLOAD_TWRP_DT:
+        description: 'Create TWRP DT Repo (For approval= true)'
+        required: false
+        default: ''
+      USER_NAME:
+        description: 'Name in Github Account'
+        required: true
+        default: ''
+      USER_EMAIL:
+        description: 'E-mail in Github Account'
+        required: true
+        default: ''
+
+jobs:
+  build:
+    name: Auto Firmware Dumper
+    if: github.event.repository.owner.id == github.event.sender.id
+    runs-on: ubuntu-20.04
+    env:
+      GITHUB_TOKEN: ${{ secrets.DUMP }}
+      TWT: ${{ github.event.inputs.UPLOAD_TWRP_DT }}
+      LOT: ${{ github.event.inputs.UPLOAD_LINEAGE_DT }}
+      FUR: ${{ github.event.inputs.FIRMWARE_URL }}
+      DCN: ${{ github.event.inputs.DEVICE_CODENAME }}
+      DB: ${{ github.event.inputs.DEVICE_BRAND }}
+      UN: ${{ github.event.inputs.USER_NAME }}
+      UEM: ${{ github.event.inputs.USER_EMAIL }}
+      AV: ${{ github.event.inputs.DEVICE_VERSION }}
+      RN: dump_${{ github.event.inputs.DEVICE_BRAND }}_${{ github.event.inputs.DEVICE_CODENAME }}
+    permissions:
+      contents: write
+    steps:
+    - name: Check Out
+      uses: actions/checkout@v3
+
+    - name: Set Swap Space
+      uses: pierotofy/set-swap-space@master
+      with:
+        swap-size-gb: 12
+
+    - name: Update Packages
+      run: |
+        sudo apt update
+        sudo apt -y upgrade
+        sudo apt -y install cpio aria2 git python3
+
+    - name: İnstalling DumprX
+      run: |
+        git clone https://github.com/DumprX/DumprX
+        cur_dir=$(pwd)
+        cd DumprX
+        sudo chmod 777 setup.sh
+        sudo chmod 777 dumper.sh
+        ./setup.sh
+
+    - name: Creating Dump
+      run: |
+        sudo ./dumper.sh ${{ env.FUR }}
+        sudo chmod -R 777 out
+
+    - name: Setting up git
+      run: |
+        git config --global user.name "${{ env.UN }}"
+        git config --global user.email "${{ env.UEM }}"
+
+    - name: Upload ROM Dump
+      run: |
+        cd out
+        sudo chmod -R 777 *
+        cp lineage-device-tree $cur_dir
+        cp twrp-device-tree $cur_dir
+        git init
+        git branch -M android-${{ env.AV }}
+        git add .
+        git commit -s -m "${{ env.DCN }}: ROM Dump
+        gh repo create ${{ env.RN }} --public --description="ROM Dump ${{ env.DCN }}." --source=. --remote=origin --push
+
+    - name: Uploading LineageOS Device Tree
+      if: |
+        ${{env.LOT}} != null
+      run: |
+        cd $cur_dir/lineage-device-tree
+        wget <file>
+        ./control_lineage_dt.sh
+
+    - name: Uploading TWRP Device Tree
+      if: |
+        ${{env.TWT}} != null
+      run: |
+        cd $cur_dir/twrp-device-tree
+        wget <file>
+        ./control_twrp_dt.sh
