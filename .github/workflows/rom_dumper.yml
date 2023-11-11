@@ -116,6 +116,7 @@ jobs:
         sudo chmod -R 777 *
         cp -r lineage-device-tree /home/Auto-Dumper
         cp -r twrp-device-tree /home/Auto-Dumper
+        git config --global init.defaultBranch android-${{ env.AV }}
         git init
         git branch -M android-${{ env.AV }}
         git add .
