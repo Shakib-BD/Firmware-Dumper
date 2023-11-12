@@ -95,7 +95,7 @@ jobs:
       run: |
         sudo apt update
         sudo apt -y upgrade
-        sudo apt -y install cpio aria2 git python3 neofetch tar xz-utils zip unzip
+        sudo apt -y install cpio aria2 git python3 neofetch tar xz-utils
         
     - name: Clone and Setup DumprX
       run: |
@@ -149,9 +149,9 @@ jobs:
       run: |
         cd /home/Auto-Dumper/DumprX/out
         echo "Compressing dump..."
-        zip dump_${{ env.DB }}_${{ env.DCN }}.zip *
-        echo "Dump has been compressed successfully. Format: zip"
-        cp dump_${{ env.DB }}_${{ env.DCN }}.zip /home/Auto-Dumper
+        tar cJvf dump_${{ env.DB }}_${{ env.DCN }}.tar.xz *
+        echo "Dump has been compressed successfully. Format: tar.xz"
+        cp dump_${{ env.DB }}_${{ env.DCN }}.tar.xz /home/Auto-Dumper
         echo "Unnecessary old files are deleted..."
         cd /home/Auto-Dumper
         sudo rm -rf DumprX
@@ -162,7 +162,7 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         files: | 
-          /home/Auto-Dumper/dump_${{ env.DB }}_${{ env.DCN }}.zip
+          /home/Auto-Dumper/dump_${{ env.DB }}_${{ env.DCN }}.tar.xz
         name: ROM dump for ${{ env.DB }} ${{ env.DCN }} - ${{ github.run_id }}
         tag_name: ${{ env.DCN }}_${{ github.run_id }}
         body: |
