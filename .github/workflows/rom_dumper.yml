@@ -74,7 +74,7 @@ jobs:
       run: |
         sudo apt update
         sudo apt -y upgrade
-        sudo apt -y install cpio aria2 git python3 neofetch
+        sudo apt -y install cpio aria2 git python3 neofetch tar xz-utils
         
     - name: Clone and Setup DumprX
       run: |
