@@ -34,4 +34,5 @@ Add this:
 - Make sure you fill in the information correctly.
 - The repository created will be private, not public. You can change this.
 - Set the action entries to `true` for the trees you want to be loaded separately.
+- You can upload the ROM dump either by creating a GitLab repository or as a release release on the GitHub local (this repository). In cases where the ROM size is large, I recommend publishing as GitHub releases. To select it as a repository, write in the relevant section of the entries: `repo` and to compress it: `compress`.
 - Telegram: @YZBruh
