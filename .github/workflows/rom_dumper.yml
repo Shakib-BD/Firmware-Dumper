@@ -95,6 +95,8 @@ jobs:
         sudo chmod -R 777 out
 
     - name: Setting up git
+      if: |
+        env.UN != null
       run: |
         git config --global user.name "${{ env.UN }}" && git config --global user.email "${{ env.UEM }}"
 
