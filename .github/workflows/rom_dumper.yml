@@ -1,4 +1,4 @@
-name: Auto Firmware Dumper by @YZBruh
+name: Auto Firmware Dumper Beta
 
 on:
   workflow_dispatch:
