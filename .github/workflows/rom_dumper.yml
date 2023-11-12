@@ -95,7 +95,7 @@ jobs:
       run: |
         sudo apt update
         sudo apt -y upgrade
-        sudo apt -y install cpio aria2 git python3 neofetch tar xz-utils
+        sudo apt -y install cpio aria2 git python3 neofetch tar xz-utils zip unzip
         
     - name: Clone and Setup DumprX
       run: |
@@ -149,7 +149,7 @@ jobs:
       run: |
         cd /home/Auto-Dumper/DumprX/out
         echo "Compressing dump..."
-        tar cJvf dump_${{ env.DB }}_${{ env.DCN }}.tar.xz *
+        zip dump_${{ env.DB }}_${{ env.DCN }}.tar.xz *
         echo "Dump has been compressed successfully. Format: tar.xz"
         cp dump_${{ env.DB }}_${{ env.DCN }}.tar.xz /home/Auto-Dumper
         echo "Unnecessary old files are deleted..."
