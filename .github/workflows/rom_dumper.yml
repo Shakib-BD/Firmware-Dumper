@@ -112,6 +112,7 @@ jobs:
     - name: Uploading ROM Dump
       run: |
         cd /home/Auto-Dumper/DumprX/out
+        git lfs install
         sudo chmod -R 777 *
         check_los_dt=$(basename lineage-device-tree)
         if [ -f "$check_los_dt" ]; then
