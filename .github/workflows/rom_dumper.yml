@@ -19,6 +19,10 @@ on:
         description: 'Android Version'
         required: true
         default: ''
+      UPLOAD_TYPE:
+        description: 'Compress and publish the ROM dump to a GitLab repository or GitLab release [repo/compress]'
+        required: true
+        default: ''
       UPLOAD_LINEAGE_DT:
         description: 'Create LineageOS DT Repo (For approval= true)'
         required: false
@@ -44,6 +48,7 @@ jobs:
     env:
       TWT: ${{ github.event.inputs.UPLOAD_TWRP_DT }}
       LOT: ${{ github.event.inputs.UPLOAD_LINEAGE_DT }}
+      UT: ${{ github.event.inputs.UPLOAD_TYPE }}
       FUR: ${{ github.event.inputs.FIRMWARE_URL }}
       DCN: ${{ github.event.inputs.DEVICE_CODENAME }}
       DB: ${{ github.event.inputs.DEVICE_BRAND }}
@@ -94,7 +99,9 @@ jobs:
       run: |
         git config --global user.name "${{ env.UN }}" && git config --global user.email "${{ env.UEM }}"
 
-    - name: Uploading ROM Dump
+    - name: Uploading ROM Dump for GitLab Repository
+    - if: |
+        ${{ env.UT }} = repo
       run: |
         cd /home/Auto-Dumper/DumprX/out
         git lfs install
@@ -121,12 +128,39 @@ jobs:
         git add .
         git commit -s -am "${{ env.DCN }}: ROM Dump"
         git push -u origin android-${{ env.AV }}
-        cd /home/Auto-Dumper/DumprX
-        sudo rm -rf out
+        cd /home/Auto-Dumper
+        sudo rm -rf DumprX
+
+    - name: Compressing ROM Dump [tar.xz]
+    - if: |
+        ${{ env.UT }} = compress
+      run: |
+        cd /home/Auto-Dumper/DumprX/out
+        echo "Compressing dump..."
+        tar cJvf dump_${{ env.DB }}_${{ env.DCN }}.tar.xz *
+        echo "Dump has been compressed successfully. Format: tar.xz"
+        cp dump_${{ env.DB }}_${{ env.DCN }}.tar.xz /home/Auto-Dumper
+        echo "Unnecessary old files are deleted..."
+        cd /home/Auto-Dumper
+        sudo rm -rf DumprX
+
+    - name: Uploading Compressed ROM Dump
+      uses: softprops/action-gh-release@v1
+      with:
+        files: | 
+          /home/Auto-Dumper/DumprX
+        name: ROM dump for ${{ env.DB }} ${{ env.DCN }} - ${{ github.run_id }}
+        tag_name: ${{ env.DCN }}_${{ github.run_id }}
+        body: |
+          Device: ${{ env.DCN }}
+          Brand: ${{ env.DB }}
+          Android version: ${{ env.AV }}
+          TWRP Tree repo: ${{ env.TWT }}
+          LineageOS Tree repo: ${{ env.LOT }}
 
     - name: Uploading LineageOS Device Tree
       if: |
-        ${{env.LOT}} != null
+        ${{ env.LOT }} = true
       run: |
         if [ ! -f "$check_los_dt" ]; then
         echo "No LineageOS compatible device tree found. Pushing canceled."
@@ -140,7 +174,7 @@ jobs:
 
     - name: Uploading TWRP Device Tree
       if: |
-        ${{env.TWT}} != null
+        ${{ env.TWT }} = true
       run: |
         if [ ! -f "$check_tw_dt" ]; then
         echo "No TWRP compatible device tree found. Pushing canceled."
