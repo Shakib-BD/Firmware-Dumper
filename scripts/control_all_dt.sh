@@ -1,5 +1,6 @@
 #!/usr/bin/bash
 # Check all trees
+cd /home/Auto-Dumper/DumprX/out
 check_los_dt=$(basename lineage-device-tree)
 if [ -f "$check_los_dt" ]; then
   cp -r lineage-device-tree /home/Auto-Dumper
