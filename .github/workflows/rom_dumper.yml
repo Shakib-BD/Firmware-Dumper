@@ -23,6 +23,10 @@ on:
         description: 'Compress and publish the ROM dump to a GitLab repository or GitLab release (repo or compress)'
         required: true
         default: ''
+        type: choice
+        options:
+        - repo
+        - compress
       UPLOAD_LINEAGE_DT:
         description: 'Create LineageOS DT Repo (For approval= true)'
         required: false
@@ -102,7 +106,7 @@ jobs:
 
     - name: Uploading ROM Dump for GitLab Repository
       if: |
-        env.UT = repo
+        github.event.inputs.UPLOAD_TYPE == "repo"
       run: |
         cd /home/Auto-Dumper/DumprX/out
         git lfs install
@@ -124,7 +128,7 @@ jobs:
         
     - name: Compressing ROM Dump
       if: |
-        env.UT = compress
+        github.event.inputs.UPLOAD_TYPE == "compress"
       run: |
         cd /home/Auto-Dumper/DumprX/out
         echo "Compressing dump..."
@@ -137,7 +141,7 @@ jobs:
 
     - name: Uploading Compressed ROM Dump
       if: |
-        env.UT = compress
+        github.event.inputs.UPLOAD_TYPE == "compress"
       uses: softprops/action-gh-release@v1
       with:
         files: | 
@@ -153,7 +157,7 @@ jobs:
 
     - name: Uploading LineageOS Device Tree
       if: |
-        env.LOT = true
+        github.event.inputs.UPLOAD_TWRP_DT == "true"
       run: |
         if [ ! -f "$check_los_dt" ]; then
         echo "No LineageOS compatible device tree found. Pushing canceled."
@@ -167,7 +171,7 @@ jobs:
 
     - name: Uploading TWRP Device Tree
       if: |
-        env.TWT = true
+        github.event.inputs.UPLOAD_LINEAGE_DT == "true"
       run: |
         if [ ! -f "$check_tw_dt" ]; then
         echo "No TWRP compatible device tree found. Pushing canceled."
