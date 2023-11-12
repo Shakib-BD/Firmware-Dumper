@@ -24,7 +24,7 @@ Add this:
 - Then tap Add Secrets.
 - If actions are not enabled, enable them from settings.
 - Go to: this repository > Actions > All workflows> Auto Firmware Dumper by @YZBruh > Run workflows > Fill in the requested information.
-- When the process is completed, you will have the following among your repositories: dump_brand_device. And if you've approved it, the repository of device trees you've approved. You will understand when you look.
+- When the process is completed, you will have the following among your repositories: dump_`<brand>`_`<device>`. And if you've approved it, the repository of device trees you've approved. You will understand when you look.
 
 ## Small explanations and notes
 - Any deficiencies or problems on the dump are caused by Stock ROM.
