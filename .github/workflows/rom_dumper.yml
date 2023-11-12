@@ -25,32 +25,32 @@ on:
         default: ''
         type: choice
         options:
-        - yes
-        - no
+        - Okay
+        - I do not want
       UPLOAD_PUBL:
         description: 'Use it if you want to compress and publish it as a version.'
         required: true
         default: ''
         type: choice
         options:
-        - yes
-        - no
+        - Okay
+        - I do not want
       UPLOAD_LINEAGE_DT:
         description: 'Create LineageOS DT Repo (For approval= true)'
         required: true
         default: ''
         type: choice
         options:
-        - yes
-        - no
+        - Okay
+        - I do not want
       UPLOAD_TWRP_DT:
         description: 'Create TWRP DT Repo (For approval= true)'
         required: false
         default: ''
         type: choice
         options:
-        - yes
-        - no
+        - Okay
+        - I do not want
       USER_NAME:
         description: 'Name in GitLab Account'
         required: false
@@ -123,7 +123,7 @@ jobs:
 
     - name: Uploading ROM Dump for GitLab Repository
       if: |
-        env.UR == 'yes'
+        env.UR == 'Okay'
       run: |
         cd /home/Auto-Dumper/DumprX/out
         git lfs install
@@ -145,7 +145,7 @@ jobs:
         
     - name: Compressing ROM Dump
       if: |
-        env.UP == 'yes'
+        env.UP == 'Okay'
       run: |
         cd /home/Auto-Dumper/DumprX/out
         echo "Compressing dump..."
@@ -158,7 +158,7 @@ jobs:
 
     - name: Uploading Compressed ROM Dump
       if: |
-        env.UP == 'yes'
+        env.UP == 'Okay'
       uses: softprops/action-gh-release@v1
       with:
         files: | 
@@ -174,7 +174,7 @@ jobs:
 
     - name: Uploading LineageOS Device Tree
       if: |
-        env.TWT == 'yes'
+        env.TWT == 'Okay'
       run: |
         wget https://raw.githubusercontent.com/YZBruh/Auto-Firmware-Dumper/master/scripts/control_lineage_dt.sh
         sudo chmod 777 control_lineage_dt.sh
@@ -183,7 +183,7 @@ jobs:
 
     - name: Uploading TWRP Device Tree
       if: |
-        env.LOT == 'yes'
+        env.LOT == 'Okay'
       run: |
         cd /home/Auto-Dumper
         wget https://raw.githubusercontent.com/YZBruh/Auto-Firmware-Dumper/master/scripts/control_twrp_dt.sh
