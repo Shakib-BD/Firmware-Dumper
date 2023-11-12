@@ -29,6 +29,7 @@ Add this:
 ## Small explanations and notes
 - Any deficiencies or problems on the dump are caused by Stock ROM.
 - I'm still developing it. But still good.
+- If there is a capital letter in the device code name, do not write it that way. Make all letters lowercase.
 - Report problems.
 - Make sure you fill in the information correctly.
 - Set the action entries to `true` for the trees you want to be loaded separately.
