@@ -71,12 +71,6 @@ jobs:
         sudo apt -y upgrade
         sudo apt -y install cpio aria2 git python3 neofetch
         
-    - name: Install OpenJDK
-      uses: actions/setup-java@v3
-      with:
-        distribution: 'zulu'
-        java-version: '8'
-        
     - name: İnstalling DumprX
       run: |
         cd /home
