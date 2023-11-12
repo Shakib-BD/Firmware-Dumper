@@ -32,5 +32,6 @@ Add this:
 - If there is a capital letter in the device code name, do not write it that way. Make all letters lowercase.
 - Report problems.
 - Make sure you fill in the information correctly.
+- The repository created will be private, not public. You can change this.
 - Set the action entries to `true` for the trees you want to be loaded separately.
 - Telegram: @YZBruh
