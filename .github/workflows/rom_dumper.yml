@@ -28,11 +28,11 @@ on:
         required: false
         default: ''
       USER_NAME:
-        description: 'Name in Github Account'
+        description: 'Name in GitLab Account'
         required: true
         default: ''
       USER_EMAIL:
-        description: 'E-mail in Github Account'
+        description: 'E-mail in GitLab Account'
         required: true
         default: ''
 
