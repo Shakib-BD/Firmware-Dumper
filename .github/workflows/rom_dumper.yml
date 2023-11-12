@@ -100,8 +100,8 @@ jobs:
 
     - name: Uploading ROM Dump for GitLab Repository
     - if: |
-        ${{ env.UT }} = repo
-      run: |
+       github.event.inputs.UPLOAD_TYPE = repo
+    - run: |
         cd /home/Auto-Dumper/DumprX/out
         git lfs install
         sudo chmod -R 777 *
@@ -132,8 +132,8 @@ jobs:
         
     - name: Compressing ROM Dump
     - if: |
-        ${{ env.UT }} = compress
-      run: |
+       env.UT = compress
+    - run: |
         cd /home/Auto-Dumper/DumprX/out
         echo "Compressing dump..."
         tar cJvf dump_${{ env.DB }}_${{ env.DCN }}.tar.xz *
@@ -144,7 +144,9 @@ jobs:
         sudo rm -rf DumprX
 
     - name: Uploading Compressed ROM Dump
-      uses: softprops/action-gh-release@v1
+    - if: |
+       env.UT = compress
+    - uses: softprops/action-gh-release@v1
       with:
         files: | 
           /home/Auto-Dumper/DumprX
@@ -173,7 +175,7 @@ jobs:
 
     - name: Uploading TWRP Device Tree
       if: |
-        ${{ env.TWT }} = true
+        env.TWT = true
       run: |
         if [ ! -f "$check_tw_dt" ]; then
         echo "No TWRP compatible device tree found. Pushing canceled."
