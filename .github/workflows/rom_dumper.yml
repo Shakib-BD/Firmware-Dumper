@@ -71,7 +71,7 @@ jobs:
         sudo apt -y upgrade
         sudo apt -y install cpio aria2 git python3 neofetch
         
-    - name: İnstalling DumprX
+    - name: Clone and Setup DumprX
       run: |
         cd /home
         sudo mkdir Auto-Dumper
