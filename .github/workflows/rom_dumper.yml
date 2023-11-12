@@ -33,11 +33,11 @@ on:
         default: ''
       USER_NAME:
         description: 'Name in GitLab Account'
-        required: true
+        required: false
         default: ''
       USER_EMAIL:
         description: 'E-mail in GitLab Account'
-        required: true
+        required: false
         default: ''
 
 jobs:
