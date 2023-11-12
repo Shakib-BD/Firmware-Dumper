@@ -102,7 +102,7 @@ jobs:
 
     - name: Uploading ROM Dump for GitLab Repository
       if: |
-       ${{ env.UT }} = repo
+        env.UT = repo
       run: |
         cd /home/Auto-Dumper/DumprX/out
         git lfs install
@@ -124,7 +124,7 @@ jobs:
         
     - name: Compressing ROM Dump
       if: |
-       ${{ env.UT }} = compress
+        env.UT = compress
       run: |
         cd /home/Auto-Dumper/DumprX/out
         echo "Compressing dump..."
@@ -137,7 +137,7 @@ jobs:
 
     - name: Uploading Compressed ROM Dump
       if: |
-       ${{ env.UT }} = compress
+        env.UT = compress
       uses: softprops/action-gh-release@v1
       with:
         files: | 
@@ -153,7 +153,7 @@ jobs:
 
     - name: Uploading LineageOS Device Tree
       if: |
-        ${{ env.LOT }} = true
+        env.LOT = true
       run: |
         if [ ! -f "$check_los_dt" ]; then
         echo "No LineageOS compatible device tree found. Pushing canceled."
@@ -167,7 +167,7 @@ jobs:
 
     - name: Uploading TWRP Device Tree
       if: |
-        ${{ env.TWT }} = true
+        env.TWT = true
       run: |
         if [ ! -f "$check_tw_dt" ]; then
         echo "No TWRP compatible device tree found. Pushing canceled."
