@@ -123,7 +123,6 @@ jobs:
         git init
         git branch -M android-${{ env.AV }}
         git remote add origin https://${{ secrets.GITLAB_TOKEN_NAME }}:${{ secrets.GITLAB_TOKEN }}@gitlab.com/${{ env.UN }}/dump_${{ env.DB }}_${{ env.DCN }}.git
-        git add .gitattributes
         git lfs track "*"
         git add .
         git commit -s -am "${{ env.DCN }}: ROM Dump"
