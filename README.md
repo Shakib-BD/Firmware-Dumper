@@ -33,7 +33,8 @@ Add this:
 - Report problems.
 - If you are not going to use functions such as creating repositories, you do not need to enter your GitLab username and email address.
 - Make sure you fill in the information correctly.
+- All information except GitLab name and email is mandatory.
 - The repository created will be private, not public. You can change this.
-- Set the action entries to `true` for the trees you want to be loaded separately.
+- Set the action entries to `yes` for the trees you want to be loaded separately. If you don't want `no`.
 - You can upload the ROM dump either by creating a GitLab repository or as a release release on the GitHub local (this repository). In cases where the ROM size is large, I recommend publishing as GitHub releases. To select it as a repository, write in the relevant section of the entries: repo and to compress it: compress.
 - Telegram: @YZBruh
