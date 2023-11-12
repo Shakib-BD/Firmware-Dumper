@@ -131,7 +131,7 @@ jobs:
         cd /home/Auto-Dumper
         sudo rm -rf DumprX
 
-    - name: Compressing ROM Dump with tar.xz
+    - name: Compressing ROM Dump
     - if: |
         ${{ env.UT }} = compress
     run: |
