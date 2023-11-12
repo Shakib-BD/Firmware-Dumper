@@ -99,9 +99,9 @@ jobs:
         git config --global user.name "${{ env.UN }}" && git config --global user.email "${{ env.UEM }}"
 
     - name: Uploading ROM Dump for GitLab Repository
-    - if: |
+      if: |
        github.event.inputs.UPLOAD_TYPE = repo
-    run: |
+      run: |
         cd /home/Auto-Dumper/DumprX/out
         git lfs install
         sudo chmod -R 777 *
@@ -131,9 +131,9 @@ jobs:
         sudo rm -rf DumprX
         
     - name: Compressing ROM Dump
-    - if: |
+      if: |
        env.UT = compress
-    run: |
+      run: |
         cd /home/Auto-Dumper/DumprX/out
         echo "Compressing dump..."
         tar cJvf dump_${{ env.DB }}_${{ env.DCN }}.tar.xz *
@@ -172,7 +172,7 @@ jobs:
         fi;
 
     - name: Uploading Compressed ROM Dump
-    - if: |
+      if: |
        env.UT = compress
     - uses: softprops/action-gh-release@v1
       with:
