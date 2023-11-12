@@ -102,7 +102,7 @@ jobs:
     - name: Uploading ROM Dump for GitLab Repository
     - if: |
         ${{ env.UT }} = repo
-      run: |
+    run: |
         cd /home/Auto-Dumper/DumprX/out
         git lfs install
         sudo chmod -R 777 *
@@ -131,10 +131,10 @@ jobs:
         cd /home/Auto-Dumper
         sudo rm -rf DumprX
 
-    - name: Compressing ROM Dump [tar.xz]
+    - name: Compressing ROM Dump with tar.xz
     - if: |
         ${{ env.UT }} = compress
-      run: |
+    run: |
         cd /home/Auto-Dumper/DumprX/out
         echo "Compressing dump..."
         tar cJvf dump_${{ env.DB }}_${{ env.DCN }}.tar.xz *
