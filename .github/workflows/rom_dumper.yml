@@ -145,7 +145,7 @@ jobs:
         
     - name: Compressing ROM Dump
       if: |
-        github.event.inputs.UPLOAD_PUBL == 'yes'
+        github.event.inputs.UPLOAD_PUBL == yes
       run: |
         cd /home/Auto-Dumper/DumprX/out
         echo "Compressing dump..."
@@ -158,7 +158,7 @@ jobs:
 
     - name: Uploading Compressed ROM Dump
       if: |
-        github.event.inputs.UPLOAD_TYPE == 'compress'
+        github.event.inputs.UPLOAD_PUBL == yes
       uses: softprops/action-gh-release@v1
       with:
         files: | 
