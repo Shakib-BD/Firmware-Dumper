@@ -114,8 +114,21 @@ jobs:
       run: |
         cd /home/Auto-Dumper/DumprX/out
         sudo chmod -R 777 *
+        check_los_dt=$(basename lineage-device-tree)
+        if [ -f "$check_los_dt" ]; then
         cp -r lineage-device-tree /home/Auto-Dumper
+        if [ ! -f "$check_los_dt" ]; then
+        echo "No LineageOS compatible device tree found. Copying has been cancelled..";
+        unset check_los_dt
+        fi;
+        fi;
+        check_tw_dt=$(basename twrp-device-tree)
+        if [ -f "$check_tw_dt" ]; then
         cp -r twrp-device-tree /home/Auto-Dumper
+        if [ ! -f "$check_tw_dt" ]; then
+        echo "No TWRP compatible device tree found. Copying has been cancelled..";
+        fi;
+        fi;
         git init
         git branch -M android-${{ env.AV }}
         git add .
