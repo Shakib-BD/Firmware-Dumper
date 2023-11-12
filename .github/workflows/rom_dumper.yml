@@ -1,6 +1,6 @@
-name: Auto Firmware Dumper Beta
+- name: Auto Firmware Dumper Beta
 
-on:
+  on:
   workflow_dispatch:
     inputs:
       FIRMWARE_URL:
