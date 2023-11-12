@@ -87,7 +87,6 @@ jobs:
         sudo chmod 777 setup.sh
         sudo chmod 777 dumper.sh
         ./setup.sh
-      working-directory: ${{ steps.pwd.outputs.workspace-folder }}
 
     - name: Creating Dump
       run: |
