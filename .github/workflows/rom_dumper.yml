@@ -29,12 +29,20 @@ on:
         - compress
       UPLOAD_LINEAGE_DT:
         description: 'Create LineageOS DT Repo (For approval= true)'
-        required: false
+        required: true
         default: ''
+        type: choice
+        options:
+        - yes
+        - no
       UPLOAD_TWRP_DT:
         description: 'Create TWRP DT Repo (For approval= true)'
         required: false
         default: ''
+        type: choice
+        options:
+        - yes
+        - no
       USER_NAME:
         description: 'Name in GitLab Account'
         required: false
