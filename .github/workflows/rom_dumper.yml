@@ -20,7 +20,7 @@ on:
         required: true
         default: ''
       UPLOAD_TYPE:
-        description: 'Compress and publish the ROM dump to a GitLab repository or GitLab release [repo/compress]'
+        description: 'Compress and publish the ROM dump to a GitLab repository or GitLab release (repo or compress)'
         required: true
         default: ''
       UPLOAD_LINEAGE_DT:
