@@ -136,7 +136,7 @@ jobs:
         
     - name: Compressing ROM Dump
       if: |
-        github.event.inputs.UPLOAD_TYPE == "compress"
+        env.UPT == "compress"
       run: |
         cd /home/Auto-Dumper/DumprX/out
         echo "Compressing dump..."
