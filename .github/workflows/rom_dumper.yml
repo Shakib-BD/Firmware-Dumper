@@ -1,6 +1,6 @@
-- name: Auto Firmware Dumper Beta
+name: Auto Firmware Dumper
 
-  on:
+on:
   workflow_dispatch:
     inputs:
       FIRMWARE_URL:
@@ -68,16 +68,16 @@ jobs:
     - name: Set Swap Space
       uses: pierotofy/set-swap-space@master
       with:
-        swap-size-gb: 12
+       swap-size-gb: 12
         
     - name: Update Packages
-      run: |
+    run: |
         sudo apt update
         sudo apt -y upgrade
         sudo apt -y install cpio aria2 git python3 neofetch tar xz-utils
         
     - name: Clone and Setup DumprX
-      run: |
+    run: |
         cd /home
         sudo mkdir Auto-Dumper
         sudo chmod 777 Auto-Dumper
@@ -89,19 +89,19 @@ jobs:
         ./setup.sh
 
     - name: Creating Dump
-      run: |
+    run: |
         cd /home/Auto-Dumper/DumprX
         ./dumper.sh ${{ env.FUR }}
         sudo chmod -R 777 out
 
     - name: Setting up git
-      run: |
+    run: |
         git config --global user.name "${{ env.UN }}" && git config --global user.email "${{ env.UEM }}"
 
     - name: Uploading ROM Dump for GitLab Repository
     - if: |
        github.event.inputs.UPLOAD_TYPE = repo
-    - run: |
+    run: |
         cd /home/Auto-Dumper/DumprX/out
         git lfs install
         sudo chmod -R 777 *
@@ -133,7 +133,7 @@ jobs:
     - name: Compressing ROM Dump
     - if: |
        env.UT = compress
-    - run: |
+    run: |
         cd /home/Auto-Dumper/DumprX/out
         echo "Compressing dump..."
         tar cJvf dump_${{ env.DB }}_${{ env.DCN }}.tar.xz *
