@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 echo "Searching for the TWRP device tree..."
-cd twrp-device-tree
+cd /home/Auto-Dumper/twrp-device-tree
 check_dt=$(basename BoardConfig.mk)
 if [ ! -f "$check_dt" ]; then
   echo "The TWRP compatible device tree has not been created.";
@@ -47,3 +47,4 @@ if [ ! -f "$g_upload" ]; then
   exit;
 fi;
 echo "Succesfull."
+cd /home/Auto-Dumper
