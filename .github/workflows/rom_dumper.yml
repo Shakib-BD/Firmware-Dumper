@@ -167,11 +167,6 @@ jobs:
       if: |
         github.event.inputs.UPLOAD_TWRP_DT == "true"
       run: |
-        if [ ! -f "$check_los_dt" ]; then
-        echo "No LineageOS compatible device tree found. Pushing canceled."
-        fi;
-        if [ -f "$check_los_dt" ]; then
-        cd /home/Auto-Dumper
         wget https://raw.githubusercontent.com/YZBruh/Auto-Firmware-Dumper/master/scripts/control_lineage_dt.sh
         sudo chmod 777 control_lineage_dt.sh
         ./control_lineage_dt.sh
@@ -181,10 +176,6 @@ jobs:
       if: |
         github.event.inputs.UPLOAD_LINEAGE_DT == "true"
       run: |
-        if [ ! -f "$check_tw_dt" ]; then
-        echo "No TWRP compatible device tree found. Pushing canceled."
-        fi;
-        if [ -f "$check_tw_dt" ]; then
         cd /home/Auto-Dumper
         wget https://raw.githubusercontent.com/YZBruh/Auto-Firmware-Dumper/master/scripts/control_twrp_dt.sh
         sudo chmod 777 control_twrp_dt.sh
