@@ -100,7 +100,7 @@ jobs:
 
     - name: Uploading ROM Dump for GitLab Repository
       if: |
-       github.event.inputs.UPLOAD_TYPE = repo
+       ${{ env.UT }} = repo
       run: |
         cd /home/Auto-Dumper/DumprX/out
         git lfs install
@@ -132,7 +132,7 @@ jobs:
         
     - name: Compressing ROM Dump
       if: |
-       env.UT = compress
+       ${{ env.UT }} = compress
       run: |
         cd /home/Auto-Dumper/DumprX/out
         echo "Compressing dump..."
@@ -142,6 +142,22 @@ jobs:
         echo "Unnecessary old files are deleted..."
         cd /home/Auto-Dumper
         sudo rm -rf DumprX
+
+    - name: Uploading Compressed ROM Dump
+      if: |
+       ${{ env.UT }} = compress
+      uses: softprops/action-gh-release@v1
+      with:
+        files: | 
+          /home/Auto-Dumper/DumprX/dump_${{ env.DB }}_${{ env.DCN }}.tar.xz
+        name: ROM dump for ${{ env.DB }} ${{ env.DCN }} - ${{ github.run_id }}
+        tag_name: ${{ env.DCN }}_${{ github.run_id }}
+        body: |
+           Device: ${{ env.DCN }}
+           Brand: ${{ env.DB }}
+           Android version: ${{ env.AV }}
+           TWRP Tree repo: ${{ env.TWT }}
+           LineageOS Tree repo: ${{ env.LOT }}
 
     - name: Uploading LineageOS Device Tree
       if: |
@@ -159,7 +175,7 @@ jobs:
 
     - name: Uploading TWRP Device Tree
       if: |
-        env.TWT = true
+        ${{ env.TWT }} = true
       run: |
         if [ ! -f "$check_tw_dt" ]; then
         echo "No TWRP compatible device tree found. Pushing canceled."
@@ -170,19 +186,3 @@ jobs:
         sudo chmod 777 control_twrp_dt.sh
         ./control_twrp_dt.sh
         fi;
-
-    - name: Uploading Compressed ROM Dump
-      if: |
-       env.UT = compress
-      uses: softprops/action-gh-release@v1
-      with:
-        files: | 
-          /home/Auto-Dumper/DumprX
-        name: ROM dump for ${{ env.DB }} ${{ env.DCN }} - ${{ github.run_id }}
-        tag_name: ${{ env.DCN }}_${{ github.run_id }}
-        body: |
-           Device: ${{ env.DCN }}
-           Brand: ${{ env.DB }}
-           Android version: ${{ env.AV }}
-           TWRP Tree repo: ${{ env.TWT }}
-           LineageOS Tree repo: ${{ env.LOT }}
