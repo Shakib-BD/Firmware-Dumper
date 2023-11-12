@@ -118,15 +118,14 @@ jobs:
         if [ -f "$check_los_dt" ]; then
         cp -r lineage-device-tree /home/Auto-Dumper
         if [ ! -f "$check_los_dt" ]; then
-        echo "No LineageOS compatible device tree found. Copying has been cancelled..";
-        unset check_los_dt
+        echo "No LineageOS compatible device tree found. Copying has been cancelled."
         fi;
         fi;
         check_tw_dt=$(basename twrp-device-tree)
         if [ -f "$check_tw_dt" ]; then
         cp -r twrp-device-tree /home/Auto-Dumper
         if [ ! -f "$check_tw_dt" ]; then
-        echo "No TWRP compatible device tree found. Copying has been cancelled..";
+        echo "No TWRP compatible device tree found. Copying has been cancelled.";
         fi;
         fi;
         sudo rm -rf .git
@@ -143,16 +142,26 @@ jobs:
       if: |
         ${{env.LOT}} != null
       run: |
+        if [ ! -f "$check_los_dt" ]; then
+        echo "No LineageOS compatible device tree found. Pushing canceled."
+        fi;
+        if [ -f "$check_los_dt" ]; then
         cd /home/Auto-Dumper
         wget https://raw.githubusercontent.com/YZBruh/Auto-Firmware-Dumper/master/scripts/control_lineage_dt.sh
         sudo chmod 777 control_lineage_dt.sh
         ./control_lineage_dt.sh
+        fi;
 
     - name: Uploading TWRP Device Tree
       if: |
         ${{env.TWT}} != null
       run: |
+        if [ ! -f "$check_tw_dt" ]; then
+        echo "No TWRP compatible device tree found. Pushing canceled."
+        fi;
+        if [ -f "$check_tw_dt" ]; then
         cd /home/Auto-Dumper
         wget https://raw.githubusercontent.com/YZBruh/Auto-Firmware-Dumper/master/scripts/control_twrp_dt.sh
         sudo chmod 777 control_twrp_dt.sh
         ./control_twrp_dt.sh
+        fi;
