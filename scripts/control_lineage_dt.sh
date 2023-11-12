@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 echo "Searching for the LineageOS device tree..."
-cd lineage-device-tree
+cd /home/Auto-Dumper/lineage-device-tree
 check_dt=$(basename BoardConfig.mk)
 if [ ! -f "$check_dt" ]; then
   echo "The LineageOS compatible device tree has not been created.";
@@ -47,3 +47,4 @@ if [ ! -f "$g_upload" ]; then
   exit;
 fi;
 echo "Succesfull."
+cd /home/Auto-Dumper
