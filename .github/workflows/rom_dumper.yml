@@ -101,7 +101,7 @@ jobs:
     - name: Uploading ROM Dump for GitLab Repository
     - if: |
        github.event.inputs.UPLOAD_TYPE = repo
-      run: |
+    run: |
         cd /home/Auto-Dumper/DumprX/out
         git lfs install
         sudo chmod -R 777 *
