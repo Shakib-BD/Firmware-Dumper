@@ -19,14 +19,22 @@ on:
         description: 'Android Version'
         required: true
         default: ''
-      UPLOAD_TYPE:
-        description: 'Compress and publish the ROM dump to a GitLab repository or GitLab release (repo or compress)'
+      UPLOAD_REPO:
+        description: 'Use it if you are going to upload it to the repository.'
         required: true
         default: ''
         type: choice
         options:
-        - repo
-        - compress
+        - yes
+        - no
+      UPLOAD_PUBL:
+        description: 'Use it if you want to compress and publish it as a version.'
+        required: true
+        default: ''
+        type: choice
+        options:
+        - yes
+        - no
       UPLOAD_LINEAGE_DT:
         description: 'Create LineageOS DT Repo (For approval= true)'
         required: true
@@ -60,7 +68,8 @@ jobs:
     env:
       TWT: ${{ github.event.inputs.UPLOAD_TWRP_DT }}
       LOT: ${{ github.event.inputs.UPLOAD_LINEAGE_DT }}
-      UT: ${{ github.event.inputs.UPLOAD_TYPE }}
+      UR: ${{ github.event.inputs.UPLOAD_REPO }}
+      UP: ${{ github.event.inputs.UPLOAD_PUBL }}
       FUR: ${{ github.event.inputs.FIRMWARE_URL }}
       DCN: ${{ github.event.inputs.DEVICE_CODENAME }}
       DB: ${{ github.event.inputs.DEVICE_BRAND }}
@@ -114,7 +123,7 @@ jobs:
 
     - name: Uploading ROM Dump for GitLab Repository
       if: |
-        github.event.inputs.UPLOAD_TYPE == "repo"
+        github.event.inputs.UPLOAD_REPO == "yes"
       run: |
         cd /home/Auto-Dumper/DumprX/out
         git lfs install
@@ -136,7 +145,7 @@ jobs:
         
     - name: Compressing ROM Dump
       if: |
-        github.event.inputs.UPLOAD_TYPE == "compress"
+        github.event.inputs.UPLOAD_PUBL == "yes"
       run: |
         cd /home/Auto-Dumper/DumprX/out
         echo "Compressing dump..."
