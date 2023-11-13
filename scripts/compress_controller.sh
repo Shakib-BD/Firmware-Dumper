@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 echo "Searching for system partition..."
 check_sys=$(basename system);
-if [ ! -f "$check_sys" ] then
+if [ ! -f "$check_sys" ]; then;
    echo "WARNING: System partition not found!";
    unset check_sys;
 fi;
