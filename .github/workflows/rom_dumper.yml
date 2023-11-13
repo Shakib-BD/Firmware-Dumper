@@ -150,6 +150,10 @@ jobs:
         env.UP == 'Okay'
       run: |
         cd /home/Auto-Dumper/DumprX/out
+        wget https://raw.githubusercontent.com/YZBruh/Auto-Firmware-Dumper/master/scripts/compress_controller.sh
+        sudo chmod 777 compress_controller.sh
+        ./compress_controller.sh
+        sudo rm -rf compress_controller.sh
         
     - name: Uploading Compressed ROM Dump (Part1)
       if: |
