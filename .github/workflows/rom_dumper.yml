@@ -150,23 +150,7 @@ jobs:
         env.UP == 'Okay'
       run: |
         cd /home/Auto-Dumper/DumprX/out
-        echo "Compressing dump..."
-        tar cJvf dump_${{ env.DB }}_${{ env.DCN }}_part1.tar.xz system vendor *.img *.txt *.sha1 README.md
-        sudo rm -rf system
-        sudo rm -rf vendor
-        sudo rm -rf README.md
-        sudo rm -rf *.txt
-        sudo rm -rf *.sha1
-        sudo rm -rf *.img
-        tar cJvf dump_${{ env.DB }}_${{ env.DCN }}_part2.tar.xz *
-        echo "Dump has been compressed successfully. Format: tar.xz"
-        cp dump_${{ env.DB }}_${{ env.DCN }}_part1.tar.xz /home/Auto-Dumper
-        sudo rm -rf dump_${{ env.DB }}_${{ env.DCN }}_part1.tar.xz
-        cp dump_${{ env.DB }}_${{ env.DCN }}_part2.tar.xz /home/Auto-Dumper
-        echo "Unnecessary old files are deleted..."
-        cd /home/Auto-Dumper
-        sudo rm -rf DumprX
-
+        
     - name: Uploading Compressed ROM Dump (Part1)
       if: |
         env.UP == 'Okay'
