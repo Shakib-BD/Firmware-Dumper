@@ -1,4 +1,5 @@
 #!/usr/bin/bash
+cd /home/Auto-Dumper/DumprX/out
 echo "Searching for system partition..."
 check_sys=$(basename system);
 if [ ! -f "$check_sys" ]; then
