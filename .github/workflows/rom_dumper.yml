@@ -77,6 +77,8 @@ jobs:
       FUR: ${{ github.event.inputs.FIRMWARE_URL }}
       UN: ${{ github.event.inputs.USER_NAME }}
       UEM: ${{ github.event.inputs.USER_EMAIL }}
+      MX: ${{ github.event.inputs.MY_DEVICE_XIAOMI }}
+      MA: ${{ github.event.inputs.MY_ANDROID_FRONT }}
       RN: dump_${{ github.event.inputs.DEVICE_BRAND }}_${{ github.event.inputs.DEVICE_CODENAME }}
     permissions:
       contents: write
@@ -165,9 +167,50 @@ jobs:
         sudo rm -rf *.txt
         sudo rm -rf *.sha1
         sudo rm -rf *.img
+        tar cJvf dump_"$brand"_"$cname"_part2.tar.xz *
+        mv -v dump_"$brand"_"$cname"_part2.tar.xz /home/Auto-Dumper
+        cd /home/Auto-Dumper
+        sudo rm -rf DumprX
+
+    - name: Compressing ROM Dump (Android 10+)
+      if: |
+        env.MA == 'Yeah'
+      run: |
+        cd /home/Auto-Dumper/DumprX/out
+        tar cJvf dump_"$brand"_"$cname"_part1.tar.xz system vendor *.img *.txt *.sha1 README.md
+        mv -v dump_"$brand"_"$cname"_part1.tar.xz /home/Auto-Dumper
+        sudo rm -rf system
+        sudo rm -rf vendor
+        sudo rm -rf README.md
+        sudo rm -rf *.txt
+        sudo rm -rf *.sha1
+        sudo rm -rf *.img
         tar cJvf dump_"$brand"_"$cname"_part2.tar.xz system_ext product
         mv -v dump_"$brand"_"$cname"_part2.tar.xz /home/Auto-Dumper
         sudo rm -rf system_ext
+        sudo rm -rf cust
+        tar cJvf dump_"$brand"_"$cname"_part3.tar.xz *
+        mv -v dump_"$brand"_"$cname"_part3.tar.xz /home/Auto-Dumper
+        cd /home/Auto-Dumper
+        sudo rm -rf DumprX
+     
+    - name: Compressing ROM Dump for Xiaomi (Android 10+)
+      if: |
+        env.MX == 'Yeah'
+      run: |
+        cd /home/Auto-Dumper/DumprX/out
+        tar cJvf dump_"$brand"_"$cname"_part1.tar.xz system vendor cust *.img *.txt *.sha1 README.md
+        mv -v dump_"$brand"_"$cname"_part1.tar.xz /home/Auto-Dumper
+        sudo rm -rf system
+        sudo rm -rf vendor
+        sudo rm -rf cust
+        sudo rm -rf README.md
+        sudo rm -rf *.txt
+        sudo rm -rf *.sha1
+        sudo rm -rf *.img
+        tar cJvf dump_"$brand"_"$cname"_part2.tar.xz mi_ext product
+        mv -v dump_"$brand"_"$cname"_part2.tar.xz /home/Auto-Dumper
+        sudo rm -rf mi_ext
         sudo rm -rf product
         tar cJvf dump_"$brand"_"$cname"_part3.tar.xz *
         mv -v dump_"$brand"_"$cname"_part3.tar.xz /home/Auto-Dumper
