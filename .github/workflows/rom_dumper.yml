@@ -7,18 +7,6 @@ on:
         description: 'Stock ROM Link'
         required: true
         default: ''
-      DEVICE_CODENAME:
-        description: 'Device Codename'
-        required: true
-        default: ''
-      DEVICE_BRAND:
-        description: 'Device Brand'
-        required: true
-        default: ''
-      DEVICE_VERSION:
-        description: 'Android Version'
-        required: true
-        default: ''
       UPLOAD_REPO:
         description: 'Use it if you are going to upload it to the repository.'
         required: true
@@ -71,11 +59,8 @@ jobs:
       UR: ${{ github.event.inputs.UPLOAD_REPO }}
       UP: ${{ github.event.inputs.UPLOAD_PUBL }}
       FUR: ${{ github.event.inputs.FIRMWARE_URL }}
-      DCN: ${{ github.event.inputs.DEVICE_CODENAME }}
-      DB: ${{ github.event.inputs.DEVICE_BRAND }}
       UN: ${{ github.event.inputs.USER_NAME }}
       UEM: ${{ github.event.inputs.USER_EMAIL }}
-      AV: ${{ github.event.inputs.DEVICE_VERSION }}
       RN: dump_${{ github.event.inputs.DEVICE_BRAND }}_${{ github.event.inputs.DEVICE_CODENAME }}
     permissions:
       contents: write
@@ -126,6 +111,9 @@ jobs:
         env.UR == 'Okay'
       run: |
         cd /home/Auto-Dumper/DumprX/out
+        android=$(grep -r "ro.build.version.release=" /home/Auto-Dumper/DumprX/out/system/build.prop /home/Auto-Dumper/DumprX/out/system/system/build.prop | sed 's/.*=\([^[:space:]]*\).*/\1/')
+        brand=$(grep -r "ro.product.brand=" /home/Auto-Dumper/DumprX/out/system/build.prop /home/Auto-Dumper/DumprX/out/system/system/build.prop | sed 's/.*=\([^[:space:]]*\).*/\1/')
+        cname=$(grep -r "ro.product.device=" /home/Auto-Dumper/DumprX/out/system/build.prop /home/Auto-Dumper/DumprX/out/system/system/build.prop | sed 's/.*=\([^[:space:]]*\).*/\1/')
         cp -r lineage-device-tree /home/Auto-Dumper
         cp -r twrp-device-tree /home/Auto-Dumper
         git lfs install
@@ -136,12 +124,12 @@ jobs:
         sudo rm -rf control_all_dt.sh
         sudo rm -rf .git
         git init
-        git branch -M android-${{ env.AV }}
-        git remote add origin https://${{ secrets.GITLAB_TOKEN_NAME }}:${{ secrets.GITLAB_TOKEN }}@gitlab.com/${{ env.UN }}/dump_${{ env.DB }}_${{ env.DCN }}.git
+        git branch -M android-$android
+        git remote add origin https://${{ secrets.GITLAB_TOKEN_NAME }}:${{ secrets.GITLAB_TOKEN }}@gitlab.com/${{ env.UN }}/dump_$brand_$cname.git
         find . -type f -size +75M -exec git lfs track {} +
         git add .
-        git commit -s -am "${{ env.DCN }}: ROM Dump"
-        git push -u origin android-${{ env.AV }}
+        git commit -s -am "$cname : ROM Dump"
+        git push -u origin android-$android
         cd /home/Auto-Dumper
         sudo rm -rf DumprX
         
@@ -150,20 +138,23 @@ jobs:
         env.UP == 'Okay'
       run: |
         cd /home/Auto-Dumper/DumprX/out
-        tar cJvf dump_${{ env.DB }}_${{ env.DCN }}_part1.tar.xz system vendor *.img *.txt *.sha1 README.md
-        mv -v dump_${{ env.DB }}_${{ env.DCN }}_part1.tar.xz /home/Auto-Dumper
+        android=$(grep -r "ro.build.version.release=" /home/Auto-Dumper/DumprX/out/system/build.prop /home/Auto-Dumper/DumprX/out/system/system/build.prop | sed 's/.*=\([^[:space:]]*\).*/\1/')
+        brand=$(grep -r "ro.product.brand=" /home/Auto-Dumper/DumprX/out/system/build.prop /home/Auto-Dumper/DumprX/out/system/system/build.prop | sed 's/.*=\([^[:space:]]*\).*/\1/')
+        cname=$(grep -r "ro.product.device=" /home/Auto-Dumper/DumprX/out/system/build.prop /home/Auto-Dumper/DumprX/out/system/system/build.prop | sed 's/.*=\([^[:space:]]*\).*/\1/')
+        tar cJvf dump_"$brand"_"$cname"_part1.tar.xz system vendor *.img *.txt *.sha1 README.md
+        mv -v dump_"$brand"_"$cname"_part1.tar.xz /home/Auto-Dumper
         sudo rm -rf system
         sudo rm -rf vendor
         sudo rm -rf README.md
         sudo rm -rf *.txt
         sudo rm -rf *.sha1
         sudo rm -rf *.img
-        tar cJvf dump_${{ env.DB }}_${{ env.DCN }}_part2.tar.xz system_ext product
-        mv -v dump_${{ env.DB }}_${{ env.DCN }}_part2.tar.xz /home/Auto-Dumper
+        tar cJvf dump_"$brand"_"$cname"_part2.tar.xz system_ext product
+        mv -v dump_"$brand"_"$cname"_part2.tar.xz /home/Auto-Dumper
         sudo rm -rf system_ext
         sudo rm -rf product
-        tar cJvf dump_${{ env.DB }}_${{ env.DCN }}_part3.tar.xz *
-        mv -v dump_${{ env.DB }}_${{ env.DCN }}_part3.tar.xz /home/Auto-Dumper
+        tar cJvf dump_"$brand"_"$cname"_part3.tar.xz *
+        mv -v dump_"$brand"_"$cname"_part3.tar.xz /home/Auto-Dumper
         cd /home/Auto-Dumper
         sudo rm -rf DumprX
         
@@ -173,13 +164,13 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         files: | 
-          /home/Auto-Dumper/dump_${{ env.DB }}_${{ env.DCN }}_part1.tar.xz
-        name: ROM dump for ${{ env.DB }} ${{ env.DCN }} - Part1 - ${{ github.run_id }}
-        tag_name: ${{ env.DCN }}_${{ github.run_id }}_part1
+          /home/Auto-Dumper/dump_"$brand"_"$cname"_part1.tar.xz
+        name: ROM dump for $brand $cname - Part1 - ${{ github.run_id }}
+        tag_name: $cname ${{ github.run_id }}_part1
         body: |
-           Device: ${{ env.DCN }}
-           Brand: ${{ env.DB }}
-           Android version: ${{ env.AV }}
+           Device: $cname
+           Brand: $brand
+           Android version: $android
            TWRP Tree repo: ${{ env.TWT }}
            LineageOS Tree repo: ${{ env.LOT }}
            Part: 1
@@ -190,13 +181,13 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         files: | 
-          /home/Auto-Dumper/dump_${{ env.DB }}_${{ env.DCN }}_part2.tar.xz
-        name: ROM dump for ${{ env.DB }} ${{ env.DCN }} - Part2 - ${{ github.run_id }}
-        tag_name: ${{ env.DCN }}_${{ github.run_id }}_part2
+          /home/Auto-Dumper/dump_"$brand"_"$cname"_part2.tar.xz
+        name: ROM dump for $brand $cname - Part2 - ${{ github.run_id }}
+        tag_name: $cname ${{ github.run_id }}_part2
         body: |
-           Device: ${{ env.DCN }}
-           Brand: ${{ env.DB }}
-           Android version: ${{ env.AV }}
+           Device: $cname
+           Brand: $brand
+           Android version: $android
            TWRP Tree repo: ${{ env.TWT }}
            LineageOS Tree repo: ${{ env.LOT }}
            Part: 2
@@ -211,8 +202,8 @@ jobs:
         name: ROM dump for ${{ env.DB }} ${{ env.DCN }} - Part3 - ${{ github.run_id }}
         tag_name: ${{ env.DCN }}_${{ github.run_id }}_part3
         body: |
-           Device: ${{ env.DCN }}
-           Brand: ${{ env.DB }}
+           Device: $cname
+           Brand: $brand
            Android version: ${{ env.AV }}
            TWRP Tree repo: ${{ env.TWT }}
            LineageOS Tree repo: ${{ env.LOT }}
