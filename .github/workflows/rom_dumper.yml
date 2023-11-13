@@ -150,10 +150,19 @@ jobs:
         env.UP == 'Okay'
       run: |
         cd /home/Auto-Dumper/DumprX/out
-        wget https://raw.githubusercontent.com/YZBruh/Auto-Firmware-Dumper/master/scripts/compress_controller.sh
-        sudo chmod 777 compress_controller.sh
-        ./compress_controller.sh
-        sudo rm -rf compress_controller.sh
+        find /home/Auto-Dumper/DumprX/out -type d -empty -exec rm -rf {} \; -print
+        tar -cJvf dump_${{ env.DB }}_${{ env.DCN }}_part1.tar.xz --ignore-failed-read -W none system vendor *.img *.txt *.sha1 README.md
+        mv -v dump_${{ env.DB }}_${{ env.DCN }}_part1.tar.xz /home/Auto-Dumper
+        sudo rm -rf system
+        sudo rm -rf vendor
+        sudo rm -rf README.md
+        sudo rm -rf *.txt
+        sudo rm -rf *.sha1
+        sudo rm -rf *.img
+        tar -cJvf dump_${{ env.DB }}_${{ env.DCN }}_part2.tar.xz --ignore-failed-read -W none *
+        mv -v dump_${{ env.DB }}_${{ env.DCN }}_part2.tar.xz /home/Auto-Dumper
+        cd /home/Auto-Dumper
+        sudo rm -rf DumprX
         
     - name: Uploading Compressed ROM Dump (Part1)
       if: |
