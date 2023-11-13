@@ -37,6 +37,6 @@ Add this:
 - The repository created will be private, not public. You can change this.
 - Set the action entries to `Okay` for the trees you want to be loaded separately. If you don't want `I do not want`.
 - If you use versions for upload, the dump will be installed in parts.
-- If it is desired to be published as a version, the dump will be divided into two and uploaded to separate versions.
+- If it is desired to be published as a version, the dump will be divided into two and uploaded to separate versions. In the first part there will be `system`, `vendor`, `*.img`, `*.txt` and `README.md`. The second part will be what's left.
 - You can upload the ROM dump either by creating a GitLab repository or as a release release on the GitHub local (this repository). In cases where the ROM size is large, I recommend publishing as GitHub releases. To select it as a repository, write in the relevant section of the entries: repo and to compress it: compress.
 - Telegram: @YZBruh
