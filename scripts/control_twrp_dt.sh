@@ -16,13 +16,13 @@ if [ ! -f "$g_init" ]; then
   echo "NOTE: Dump and LineageOS device tree already uploaded."
   exit;
 fi;
-g_branch=$(git branch -M android-${{ env.AV }})
+g_branch=$(git branch -M android-"$android")
 if [ ! -f "$g_branch" ]; then
   echo "Pushing failed!"
   echo "NOTE: Dump and LineageOS device tree already uploaded."
   exit;
 fi;
-g_remote=$(git remote add origin https://${{ secrets.GITLAB_TOKEN_NAME }}:${{ secrets.GITLAB_TOKEN }}@gitlab.com/${{ env.UN }}/twrp_device_${{ env.DB }}_${{ env.DCN }}.git)
+g_remote=$(git remote add origin https://${{ secrets.GITLAB_TOKEN_NAME }}:${{ secrets.GITLAB_TOKEN }}@gitlab.com/${{ env.UN }}/twrp_device_"$brand"_"$cname".git)
 if [ ! -f "$g_remote" ]; then
   echo "Pushing failed!"
   echo "NOTE: Dump and LineageOS device tree already uploaded."
@@ -34,13 +34,13 @@ if [ ! -f "$g_add" ]; then
   echo "NOTE: Dump and LineageOS tree already uploaded."
   exit;
 fi;
-g_commit=$(git commit -s -m "${{ env.DCN }}: TWRP compatible device tree")
+g_commit=$(git commit -s -m "$cname : TWRP compatible device tree")
 if [ ! -f "$g_commit" ]; then
   echo "Pushing failed!"
   echo "NOTE: Dump and LineageOS tree already uploaded."
   exit;
 fi;
-g_upload=$(git push -u origin android-${{ env.AV }})
+g_upload=$(git push -u origin android-"$android")
 if [ ! -f "$g_upload" ]; then
   echo "Pushing failed!"
   echo "NOTE: Dump and LineageOS tree already uploaded."
