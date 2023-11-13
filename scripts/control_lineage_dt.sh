@@ -9,20 +9,20 @@ if [ ! -f "$check_dt" ]; then
 fi;
 echo "A LineageOS compatible device tree has been created."
 echo "Pushing..."
-sudo rm -rf .git
+sudo rm -rf git
 g_init=$(git init)
 if [ ! -f "$g_init" ]; then
   echo "Pushing failed!"
   echo "NOTE: Dump already uploaded."
   exit;
 fi;
-g_branch=$(git branch -M lineage-${{ env.DCN }})
+g_branch=$(git branch -M lineage-"$cname")
 if [ ! -f "$g_branch" ]; then
   echo "Pushing failed!"
   echo "NOTE: Dump already uploaded."
   exit;
 fi;
-g_remote=$(git remote add origin https://${{ secrets.GITLAB_TOKEN_NAME }}:${{ secrets.GITLAB_TOKEN }}@gitlab.com/${{ env.UN }}/lineage_device_${{ env.DB }}_${{ env.DCN }}.git)
+g_remote=$(git remote add origin https://${{ secrets.GITLAB_TOKEN_NAME }}:${{ secrets.GITLAB_TOKEN }}@gitlab.com/${{ env.UN }}/lineage_device_"$brand"_"$cname".git)
 if [ ! -f "$g_remote" ]; then
   echo "Pushing failed!"
   echo "NOTE: Dump already uploaded."
@@ -34,13 +34,13 @@ if [ ! -f "$g_add" ]; then
   echo "NOTE: Dump already uploaded."
   exit;
 fi;
-g_commit=$(git commit -s -m "${{ env.DCN }}: LineageOS compatible device tree")
+g_commit=$(git commit -s -m "$cname : LineageOS compatible device tree")
 if [ ! -f "$g_commit" ]; then
   echo "Pushing failed!"
   echo "NOTE: Dump already uploaded."
   exit;
 fi;
-g_upload=$(git push -u origin lineage-${{ env.DCN }})
+g_upload=$(git push -u origin lineage-"$cname")
 if [ ! -f "$g_upload" ]; then
   echo "Pushing failed!"
   echo "NOTE: Dump already uploaded."
