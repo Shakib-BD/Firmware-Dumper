@@ -126,6 +126,8 @@ jobs:
         env.UR == 'Okay'
       run: |
         cd /home/Auto-Dumper/DumprX/out
+        cp -r lineage-device-tree /home/Auto-Dumper
+        cp -r twrp-device-tree /home/Auto-Dumper
         git lfs install
         sudo chmod -R 777 *
         wget https://raw.githubusercontent.com/YZBruh/Auto-Firmware-Dumper/master/scripts/control_all_dt.sh
@@ -165,22 +167,39 @@ jobs:
         cd /home/Auto-Dumper
         sudo rm -rf DumprX
 
-    - name: Uploading Compressed ROM Dump
+    - name: Uploading Compressed ROM Dump (Part1)
       if: |
         env.UP == 'Okay'
       uses: softprops/action-gh-release@v1
       with:
         files: | 
           /home/Auto-Dumper/dump_${{ env.DB }}_${{ env.DCN }}_part1.tar.xz
-          /home/Auto-Dumper/dump_${{ env.DB }}_${{ env.DCN }}_part2.tar.xz
-        name: ROM dump for ${{ env.DB }} ${{ env.DCN }} - ${{ github.run_id }}
-        tag_name: ${{ env.DCN }}_${{ github.run_id }}
+        name: ROM dump for ${{ env.DB }} ${{ env.DCN }} - Part1 - ${{ github.run_id }}
+        tag_name: ${{ env.DCN }}_${{ github.run_id }}_part1
         body: |
            Device: ${{ env.DCN }}
            Brand: ${{ env.DB }}
            Android version: ${{ env.AV }}
            TWRP Tree repo: ${{ env.TWT }}
            LineageOS Tree repo: ${{ env.LOT }}
+           Part: 1
+
+    - name: Uploading Compressed ROM Dump (Part2)
+      if: |
+        env.UP == 'Okay'
+      uses: softprops/action-gh-release@v1
+      with:
+        files: | 
+          /home/Auto-Dumper/dump_${{ env.DB }}_${{ env.DCN }}_part2.tar.xz
+        name: ROM dump for ${{ env.DB }} ${{ env.DCN }} - Part2 - ${{ github.run_id }}
+        tag_name: ${{ env.DCN }}_${{ github.run_id }}_part2
+        body: |
+           Device: ${{ env.DCN }}
+           Brand: ${{ env.DB }}
+           Android version: ${{ env.AV }}
+           TWRP Tree repo: ${{ env.TWT }}
+           LineageOS Tree repo: ${{ env.LOT }}
+           Part: 2
 
     - name: Uploading LineageOS Device Tree
       if: |
