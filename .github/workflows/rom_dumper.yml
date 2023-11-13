@@ -23,6 +23,22 @@ on:
         options:
         - Okay
         - I do not want
+      MY_ANDROID_FRONT:
+        description: 'If your device is above Android 10 and you will use compression, tick: "Yeah". Except for Xiaomi devices.'
+        required: true
+        default: ''
+        type: choice
+        options:
+        - Yeah
+        - Not above Android 10
+      MY_DEVICE_XIAOMI:
+        description: 'If the device is a Xiaomi device with Android 10 above, tick: "Yeah".'
+        required: true
+        default: ''
+        type: choice
+        options:
+        - Yeah
+        - I don't use Xiaomi
       UPLOAD_LINEAGE_DT:
         description: 'Create LineageOS DT Repo (For approval= true)'
         required: true
